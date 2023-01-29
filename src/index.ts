@@ -1,4 +1,5 @@
 import type { Handler, APIGatewayProxyResultV2 } from 'aws-lambda'
+import { get_request } from '@/get_request'
 
 type LambdaFunctionURLEvent = {
   version: string
@@ -34,5 +35,12 @@ type LambdaFunctionURLEvent = {
 }
 
 export const handler: Handler = async (event: LambdaFunctionURLEvent): Promise<APIGatewayProxyResultV2> => {
-  return { statusCode: 200, body: event.body }
+  if (event.requestContext.http.method !== 'GET') return { statusCode: 405, body: 'Method not allowed.' }
+
+  const url_response = await get_request(event.queryStringParameters?.['url'] as string)
+
+  return {
+    statusCode: 200,
+    body: url_response
+  }
 }

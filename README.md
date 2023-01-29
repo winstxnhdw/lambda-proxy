@@ -1,7 +1,5 @@
-# node-boilerplate
+# lambda-proxy
 
-Boilerplate for Node.js projects.
+[![main.yml](https://github.com/winstxnhdw/lambda-proxy/actions/workflows/main.yml/badge.svg)](https://github.com/winstxnhdw/lambda-proxy/actions/workflows/main.yml)
 
-```bash
-yarn upgrade --latest
-```
+Personal proxy with AWS Lambda.
