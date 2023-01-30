@@ -36,8 +36,10 @@ type LambdaFunctionURLEvent = {
 
 export const handler: Handler = async (event: LambdaFunctionURLEvent): Promise<APIGatewayProxyResultV2> => {
   if (event.requestContext.http.method !== 'GET') return { statusCode: 405, body: 'Method not allowed.' }
+  if (!event.queryStringParameters?.['url']) return { statusCode: 400, body: 'Missing URL.' }
 
-  const url_response = await get_request(event.queryStringParameters?.['url'] as string)
+  const decoded_url = decodeURIComponent(event.queryStringParameters['url'] as string)
+  const url_response = await get_request(decoded_url)
 
   return {
     statusCode: 200,
