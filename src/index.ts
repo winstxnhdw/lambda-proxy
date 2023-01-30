@@ -40,6 +40,7 @@ export const handler: Handler = async (event: LambdaFunctionURLEvent): Promise<A
 
   const decoded_url = decodeURIComponent(event.queryStringParameters['url'] as string)
   const url_response = await get_request(decoded_url)
+  console.log(`URL: ${decoded_url}\n\nResponse:\n${url_response}`)
 
   return {
     statusCode: 200,
