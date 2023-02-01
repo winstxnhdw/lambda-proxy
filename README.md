@@ -73,7 +73,7 @@ gh workflow run main.yml
 ```ts
 import { config } from '@/config'
 
-export const getRequestWithProxy = async (...endpoints: string[]) => {
+export const getRequestWithProxy = async <T>(...endpoints: string[]): Promise<T[]> => {
   const request = await fetch(config.VITE_PROXY_ENDPOINT, {
     method: 'POST',
     body: JSON.stringify({
@@ -81,9 +81,11 @@ export const getRequestWithProxy = async (...endpoints: string[]) => {
     })
   })
 
-  return request.json()
+  const response: string[] = await request.json()
+  return response.map((res) => JSON.parse(res))
 }
 
+
 const response = await getRequestWithProxy('https://account.battleon.com/charpage/details?id=53251829')
-console.log(response)
+response.map(console.log)
 ```
