@@ -48,7 +48,7 @@ Add a Lambda function URL and keep the output URL safe. Learn more [here](https:
 
 ```bash
 aws create-function-url-config --function-name lambda-proxy --auth-type NONE --cors { \
-  "AllowMethods": ["GET"], \
+  "AllowMethods": ["POST"], \
   "AllowOrigins": ["*"], \ # You should be using specific origins instead
 }
 ```
@@ -73,12 +73,13 @@ gh workflow run main.yml
 ```ts
 import { config } from '@/config'
 
-const getRequestWithProxy = async (url: string) => {
-  const request = await fetch(
-    `${config.VITE_PROXY_ENDPOINT}?${new URLSearchParams({
-      url: encodeURIComponent(url),
-    })}`
-  )
+export const getRequestWithProxy = async (...endpoints: string[]) => {
+  const request = await fetch(config.VITE_PROXY_ENDPOINT, {
+    method: 'POST',
+    body: JSON.stringify({
+      endpoints: endpoints
+    })
+  })
 
   return request.json()
 }
