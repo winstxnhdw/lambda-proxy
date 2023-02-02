@@ -22,11 +22,9 @@ export const handler: Handler = async (
   if (request.endpoints === undefined) return invalid_response('Missing endpoints field.')
   if (request.endpoints.length === 0) return invalid_response('No endpoint(s) provided.')
 
-  const responses = await Promise.all(request.endpoints.map(async (endpoint) => await get_request(endpoint))).catch(
-    (error) => {
-      return invalid_response(error.message, 500)
-    }
-  )
+  const responses = await Promise.all(request.endpoints.map(get_request)).catch((error) => {
+    return invalid_response(error.message, 500)
+  })
 
   return {
     statusCode: 200,
