@@ -3,6 +3,7 @@ mod get_requests;
 use get_requests::get_requests;
 use lambda_http::{run, service_fn, Body, Error, Request, RequestExt, Response};
 use serde::Deserialize;
+use serde_json::to_string;
 use tracing::Level;
 use tracing_subscriber::fmt;
 
@@ -29,7 +30,7 @@ async fn handler(event: Request) -> Result<Response<Body>, Error> {
     };
 
     let url_responses = get_requests(&payload.endpoints).await?;
-    let lambda_response = serde_json::to_string(&url_responses)?;
+    let lambda_response = to_string(&url_responses)?;
 
     Ok(Response::builder()
         .status(200)
@@ -47,4 +48,39 @@ async fn main() -> Result<(), Error> {
         .init();
 
     run(service_fn(handler)).await
+}
+
+#[cfg(test)]
+mod tests {
+    use super::handler;
+    use lambda_http::request::from_str;
+    use serde_json::from_slice;
+    use tokio::test;
+
+    #[test]
+    async fn handler_test() {
+        let input = include_str!("test.json");
+        let request = from_str(input).expect("Failed to create request.");
+
+        let response = handler(request)
+            .await
+            .expect("Failed to handle request.")
+            .body()
+            .to_owned();
+
+        let deserialised_response =
+            from_slice::<Vec<String>>(&response).expect("Failed to deserialise response.");
+
+        let clean_response = deserialised_response
+            .iter()
+            .map(|response| response.trim())
+            .next()
+            .unwrap();
+
+        assert_eq!(deserialised_response.len(), 2);
+        assert_eq!(
+            clean_response,
+            "The quick brown fox jumps over the lazy dog."
+        )
+    }
 }
