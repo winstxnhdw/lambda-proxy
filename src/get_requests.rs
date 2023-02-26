@@ -1,4 +1,4 @@
-use futures::{stream::FuturesUnordered, StreamExt};
+use futures::{stream::FuturesUnordered, TryStreamExt};
 use reqwest::{Client, Error};
 
 async fn get_request(url: &String, client: &Client) -> Result<String, Error> {
@@ -12,8 +12,6 @@ pub async fn get_requests(endpoints: &Vec<String>) -> Result<Vec<String>, Error>
         .iter()
         .map(|url| get_request(url, &client))
         .collect::<FuturesUnordered<_>>()
-        .collect::<Vec<_>>()
+        .try_collect()
         .await
-        .into_iter()
-        .collect()
 }
