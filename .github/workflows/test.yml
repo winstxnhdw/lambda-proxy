@@ -4,15 +4,15 @@ on:
   workflow_dispatch:
   workflow_run:
     workflows: ["Deploy"]
-    types:
-      - completed
+    types: [completed]
   push:
     paths:
       - '.github/workflows/test.yml'
 
 jobs:
-  Test:
+  test:
     runs-on: ubuntu-latest
+
     env:
       LAMBDA_FUNCTION_URL: ${{ secrets.LAMBDA_FUNCTION_URL }}
 
