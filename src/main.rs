@@ -18,12 +18,14 @@ async fn handler(event: Request) -> Result<Response<Body>, Error> {
         Ok(None) => {
             return Ok(Response::builder()
                 .status(400)
+                .header("Content-Type", "text/plain")
                 .body("No body found".into())
                 .map_err(Box::new)?)
         }
         Err(err) => {
             return Ok(Response::builder()
                 .status(400)
+                .header("Content-Type", "text/plain")
                 .body(format!("Error parsing body: {}", err).into())
                 .map_err(Box::new)?)
         }
@@ -34,7 +36,7 @@ async fn handler(event: Request) -> Result<Response<Body>, Error> {
 
     Ok(Response::builder()
         .status(200)
-        .header("Content-Type", "text/json")
+        .header("Content-Type", "text/plain")
         .body(lambda_response.into())
         .map_err(Box::new)?)
 }
