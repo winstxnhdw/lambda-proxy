@@ -2,6 +2,7 @@
 
 [![main.yml](https://github.com/winstxnhdw/lambda-proxy/actions/workflows/main.yml/badge.svg)](https://github.com/winstxnhdw/lambda-proxy/actions/workflows/main.yml)
 [![test.yml](https://github.com/winstxnhdw/lambda-proxy/actions/workflows/test.yml/badge.svg)](https://github.com/winstxnhdw/lambda-proxy/actions/workflows/test.yml)
+[![dependabot.yml](https://github.com/winstxnhdw/lambda-proxy/actions/workflows/dependabot.yml/badge.svg)](https://github.com/winstxnhdw/lambda-proxy/actions/dependabot/test.yml)
 
 My personal Rust proxy with AWS Lambda. You may fork this repository and follow the instructions in [Setup](#setup).
 
