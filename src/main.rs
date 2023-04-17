@@ -1,7 +1,7 @@
 mod get_requests;
 
 use get_requests::get_requests;
-use lambda_http::{run, service_fn, Body, Error, Request, RequestExt, Response};
+use lambda_http::{run, service_fn, Body, Error, Request, RequestPayloadExt, Response};
 use serde::Deserialize;
 use serde_json::to_string;
 use tracing::Level;
@@ -24,7 +24,7 @@ async fn handler(event: Request) -> Result<Response<Body>, Error> {
         }
         Err(err) => {
             return Ok(Response::builder()
-                .status(400)
+                .status(500)
                 .header("Content-Type", "text/plain")
                 .body(format!("Error parsing body: {}", err).into())
                 .map_err(Box::new)?)
