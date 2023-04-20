@@ -41,6 +41,9 @@ jobs:
       - name: Install cargo-lambda
         run: pip install -r requirements.txt
 
+      - name: Clippy
+        run: cargo clippy
+
       - name: Test
         run: cargo test
 
