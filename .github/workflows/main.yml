@@ -7,8 +7,8 @@ on:
     paths:
       - 'src/**'
       - 'tests/**'
-      - '.github/workflows/main.yml'
-      - 'Cargo.toml'
+      - .github/workflows/main.yml
+      - Cargo.toml
 
 permissions:
   id-token: write
