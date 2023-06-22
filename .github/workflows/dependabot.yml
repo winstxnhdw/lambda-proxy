@@ -16,8 +16,8 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-            python-version: '3.11'
-            cache: 'pip'
+            python-version: 3.11
+            cache: pip
 
       - name: Install cargo-lambda
         run: pip install -r requirements.txt
@@ -26,11 +26,12 @@ jobs:
         run: cargo test
 
   auto-merge:
+    needs: build
     if: ${{ github.actor == 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      
+
     steps:
       - name: Auto-merge Dependabot PRs
         run: gh pr merge --auto --rebase "$PR_URL"
