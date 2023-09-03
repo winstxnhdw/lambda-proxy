@@ -13,19 +13,29 @@ on:
 permissions:
   id-token: write
 
+env:
+  LAMBDA_FUNCTION_NAME: ${{ vars.LAMBDA_FUNCTION_NAME }}
+
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
-    env:
-      LAMBDA_FUNCTION_NAME: ${{ vars.LAMBDA_FUNCTION_NAME }}
 
     steps:
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v3.0.1
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          components: clippy
 
+      - name: Lint
+        run: cargo clippy
+
+      - name: Test
+        run: cargo test
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -41,14 +51,30 @@ jobs:
       - name: Install cargo-lambda
         run: pip install -r requirements.txt
 
-      - name: Lint
-        run: cargo clippy
-
-      - name: Test
-        run: cargo test
-
       - name: Build
         run: cargo lambda build --release --output-format zip
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.LAMBDA_FUNCTION_NAME }}
+          path: target/lambda/${{ env.LAMBDA_FUNCTION_NAME }}/bootstrap.zip
+
+  deploy:
+    needs: [test, build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3.0.1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.LAMBDA_FUNCTION_NAME }}
+
       - name: Deploy to AWS
-        run: aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file=fileb://target/lambda/$LAMBDA_FUNCTION_NAME/bootstrap.zip
+        run: aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file=fileb://bootstrap.zip
