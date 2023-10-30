@@ -6,8 +6,7 @@ on:
     workflows: Deploy
     types: completed
   push:
-    paths:
-      - .github/workflows/test.yml
+    paths: .github/workflows/test.yml
 
 jobs:
   test:
