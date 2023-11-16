@@ -3,12 +3,13 @@ name: Deploy
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: main
     paths:
       - src/**
       - tests/**
       - .github/workflows/main.yml
       - Cargo.toml
+      - Cargo.lock
 
 permissions:
   id-token: write
