@@ -8,5 +8,5 @@
     },
     "timeEpoch": 1673437534837
   },
-  "body": "{ \"endpoints\": [\"https://winstn.netlify.app/test.txt\", \"https://winstn.netlify.app/test.txt\"] }"
+  "body": "{ \"endpoints\": [\"https://hosted.winst.in/test.txt\", \"https://hosted.winst.in/test.txt\"] }"
 }
