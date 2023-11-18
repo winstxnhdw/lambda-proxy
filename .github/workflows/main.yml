@@ -46,14 +46,8 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-          cache: pip
-
       - name: Install cargo-lambda
-        run: pip install -r requirements.txt
+        run: pip install cargo-lambda
 
       - name: Build
         run: cargo lambda build --release --output-format zip
