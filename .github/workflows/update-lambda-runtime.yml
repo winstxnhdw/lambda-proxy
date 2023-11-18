@@ -15,7 +15,7 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
+  update:
     runs-on: ubuntu-latest
     env:
       LAMBDA_FUNCTION_NAME: ${{ vars.LAMBDA_FUNCTION_NAME }}
