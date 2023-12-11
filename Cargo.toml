@@ -8,7 +8,7 @@ edition = "2021"
 rustflags = ["-Z", "threads=2"]
 
 [dependencies]
-tokio = { version = "^1.34.0", features = ["macros"] }
+tokio = { version = "^1.35.0", features = ["macros"] }
 reqwest = { version = "^0.11.22", default-features = false, features = ["json", "rustls-tls"] }
 lambda_http = { version = "^0.8.3", default-features = false, features = ["apigw_http"] }
 tracing-subscriber = { version = "^0.3.18", default-features = false, features = ["fmt"] }
