@@ -13,7 +13,7 @@ reqwest = { version = "^0.11.23", default-features = false, features = ["json", 
 lambda_http = { version = "^0.9.0", default-features = false, features = ["apigw_http"] }
 tracing-subscriber = { version = "^0.3.18", default-features = false, features = ["fmt"] }
 tracing = { version = "^0.1", features = ["log"] }
-serde = { version = "^1.0.194", features = ["derive"] }
+serde = { version = "^1.0.195", features = ["derive"] }
 serde_json = "^1.0.111"
 futures = "^0.3.30"
 
