@@ -8,5 +8,5 @@
     },
     "timeEpoch": 1673437534837
   },
-  "body": "{ \"endpoints\": [\"https://hosted.winst.in/test.txt\", \"https://hosted.winst.in/test.txt\"] }"
+  "body": "{ \"endpoints\": [\"https://raw.githubusercontent.com/winstxnhdw/hosted-snippets/refs/heads/main/test.txt\", \"https://raw.githubusercontent.com/winstxnhdw/hosted-snippets/refs/heads/main/test.txt\"] }"
 }
