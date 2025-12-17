@@ -20,7 +20,7 @@ jobs:
         run: |
           echo "RESPONSE=$(curl -s $LAMBDA_FUNCTION_URL \
             -H "Content-Type: application/json" \
-            -d '{ "endpoints": ["https://hosted.winst.in/test.txt"] }')" >> $GITHUB_ENV
+            -d '{ "endpoints": ["https://raw.githubusercontent.com/winstxnhdw/hosted-snippets/refs/heads/main/test.txt"] }')" >> $GITHUB_ENV
 
       - name: Test Success
         env:
