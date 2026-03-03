@@ -9,7 +9,7 @@ on:
         required: true
         options:
         - nodejs18.x
-        - provided.al2
+        - provided.al2023
 
 permissions:
   id-token: write
