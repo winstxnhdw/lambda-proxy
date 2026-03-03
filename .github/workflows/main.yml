@@ -10,8 +10,7 @@ on:
       - Cargo.toml
       - Cargo.lock
 
-permissions:
-  id-token: write
+permissions: {}
 
 env:
   LAMBDA_FUNCTION_NAME: ${{ vars.LAMBDA_FUNCTION_NAME }}
@@ -23,11 +22,22 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6.0.2
-
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
         with:
-          components: clippy
+          persist-credentials: false
+
+      - name: Cache Cargo
+        uses: actions/cache@v5.0.3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Setup Clippy
+        run: rustup component add clippy
 
       - name: Lint
         run: cargo clippy
@@ -41,6 +51,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6.0.2
+        with:
+          persist-credentials: false
 
       - name: Cache Cargo
         uses: actions/cache@v5.0.3
@@ -52,9 +64,6 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
 
       - name: Install cargo-lambda
         run: pip install cargo-lambda
@@ -70,7 +79,9 @@ jobs:
 
   deploy:
     needs: [test, build]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
+    permissions:
+      id-token: write
 
     steps:
       - name: Configure AWS Credentials
