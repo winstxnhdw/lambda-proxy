@@ -20,7 +20,7 @@ jobs:
         run: cargo test
 
   auto-merge:
-    uses: winstxnhdw/actions/.github/workflows/dependabot-public.yml@main
+    uses: winstxnhdw/actions/.github/workflows/dependabot.yml@main
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
     permissions:
