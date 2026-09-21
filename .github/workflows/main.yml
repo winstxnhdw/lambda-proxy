@@ -72,7 +72,7 @@ jobs:
         run: cargo lambda build --release --output-format zip
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v7.0.0
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: ${{ env.LAMBDA_FUNCTION_NAME }}
           path: target/lambda/${{ env.LAMBDA_FUNCTION_NAME }}/bootstrap.zip
